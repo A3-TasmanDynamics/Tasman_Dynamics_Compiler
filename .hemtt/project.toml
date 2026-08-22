@@ -1,0 +1,25 @@
+name = "Tasman Dynamics - Compatibility Layer"
+prefix = "tasdyn"
+author = "Tasman Dynamics"
+[version]
+major = 1
+minor = 0
+patch = 0
+
+# This defines the base path in Arma. 
+# Your files will sit at: \tasdyn\tasdyn_compat\
+main_prefix = ""
+
+# HEMTT Build Scripts
+[scripts]
+# This hook tells HEMTT to run your Node.js compiler right before packing the PBO
+pre_build = """
+    print("Running Tasman Dynamics TS Compiler...");
+    let exec = cmd("npm").arg("run").arg("build").dir("compiler");
+    let status = exec.run();
+    if !status.success() {
+        print("Compiler failed! Aborting build.");
+        exit(1);
+    }
+    print("Compilation successful. Packing PBOs...");
+"""
